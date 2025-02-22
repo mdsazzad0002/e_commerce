@@ -17,11 +17,11 @@ class CustomFlowerController extends Controller
     {
         $flower = Flower::latest()->get();
         $color = FlowerColor::latest()->get();
-        $customeflower=CustomFlower::latest()->with('flower')->get();
+        // $customeflower=CustomFlower::latest()->with('flower')->get();
         return view('admin.pages.custom_flower', [
             'flower' => $flower,
             'color' => $color,
-            'customeflower'=>$customeflower,
+            // 'customeflower'=>$customeflower,
         ]);
     }
 
@@ -95,18 +95,36 @@ class CustomFlowerController extends Controller
      */
 
      public function store(Request $request)
-{
+    {
+
+
     // Validate the request
     $request->validate([
         'name' => 'required|string|max:255',
         'colors' => 'required|array', // Ensure at least one color is selected
         'prices' => 'required|array', // Ensure prices are provided
+        'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
     ]);
 
+    $imagePath = null;
+    // Handle the file upload
+    if ($request->hasFile('img')) {
+        $image = $request->file('img');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('admin/images'), $imageName);
+        $imagePath = 'admin/images/' . $imageName; // Save relative path
+    } else {
+        $imagePath = null;
+    }
+
+
     // Create the CustomFlower record
-    $customFlower = CustomFlower::create([
+    $flower_id = Flower::create([
         'name' => $request->name,
+        'img' => $imagePath, // Store the
+
     ]);
+
 
     // Loop through selected colors and prices
     foreach ($request->colors as $colorId) {
@@ -114,7 +132,7 @@ class CustomFlowerController extends Controller
         if (isset($request->prices[$colorId])) {
             // Create the attribute record
             FlowerAttribute::create([
-                'customflower_id' => $customFlower->id,
+                'flower_id' =>   $flower_id->id,
                 'color_id' => $colorId,
                 'price' => $request->prices[$colorId],
             ]);
@@ -141,15 +159,16 @@ class CustomFlowerController extends Controller
     //     ]);
 
     //     return redirect()->back()->with('message', 'Custome flower created successfully!');
-        
+
     // }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( $flower)
     {
-        //
+        $flower = Flower::with('attribute_price')->findOrFail($flower);
+        return $flower;
     }
 
     /**

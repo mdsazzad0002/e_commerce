@@ -15,6 +15,11 @@ class Flower extends Model
     return $this->hasMany(CustomFlower::class);
 }
 
+public function attribute_price()
+{
+    return $this->hasMany(FlowerAttribute::class,'flower_id', 'id');
+}
+
     // The table associated with the model
     // protected $table = 'flowers';
 

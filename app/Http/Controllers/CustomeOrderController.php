@@ -9,6 +9,11 @@ use App\Models\FlowerAttribute;
 use App\Models\Reaper;
 use App\Models\FlowerColor;
 use PhpParser\Node\Expr\FuncCall;
+use App\Models\CustomFlowerOrder;
+use App\Models\CustomFlowerOrderDetail;
+use App\Models\AddtoCart;
+use App\Models\User;
+use App\Models\Customer;
 
 class CustomeOrderController extends Controller
 {
@@ -17,7 +22,8 @@ class CustomeOrderController extends Controller
     public function custome_order(){
        $flower=Flower::latest()->get();
        $color=FlowerColor::latest()->get();
-       $reaper=Reaper::orderBy('flower_qty', 'asc')->get();
+       $reaper=Reaper::orderBy('flower_qty', 'ASC')->get();
+
         return view('website.pages.custome_order',[
             'flower'=>$flower,
             // 'color'=>$color,
@@ -31,15 +37,15 @@ class CustomeOrderController extends Controller
     $flowerId = $request->input('flower_id');
 
     // Fetch colors associated with the selected flower
-// Fetch FlowerAttribute records for the given customflower_id
-$attributes = FlowerAttribute::where('customflower_id', $flowerId)->get();
+// Fetch FlowerAttribute records for the given flower_id
+$attributes = FlowerAttribute::where('flower_id', $flowerId)->get();
 
 // Extract color IDs from the attributes
 $colorIds = $attributes->pluck('color_id');
 
 // Fetch FlowerColor records based on the extracted color IDs
 $colors = FlowerColor::whereIn('id', $colorIds)->get();
-     
+
     // dd($colors);
 
     return response()->json([
@@ -50,25 +56,25 @@ $colors = FlowerColor::whereIn('id', $colorIds)->get();
     public function getFlowerColors(Request $request) {
         // Get color IDs assigned to the selected flower from CustomFlower table
         $colorIds = CustomFlower::where('flower_id', $request->flower_id)->pluck('color_id');
-    
+
         // Fetch colors from FlowerColor table
         $colors = FlowerColor::whereIn('id', $colorIds)->get();
-    
+
         return response()->json($colors);
     }
 
-    
 
-    
+
+
 
 
     public function getFlowerPrice(Request $request)
 {
-    $customFlower = FlowerAttribute::where('customflower_id', $request->flower_id)
+    $customFlower = FlowerAttribute::where('flower_id', $request->flower_id)
         ->where('color_id', $request->color_id)
         ->first();
 
-        
+
 
     return response()->json([
         'price' => $customFlower ? $customFlower->price : 0
@@ -85,15 +91,49 @@ public function flowerStore(Request $request){
         'quantity_array' => 'required|array',
     ]);
 
+
+    $user = Customer::where('email', $request->email)->where('mobile', $request->phone)->first();
+    // If user doesn't exist, create a new one
+    if (!$user) {
+        $user = Customer::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->phone,
+            'password' => bcrypt('12345'), // Encrypt password for security
+            'address' => $request->location, // Encrypt password for security
+        ]);
+    }
+
+    $total_quantity = 0;
+    foreach ($request->quantity_array as $quantity) {
+        $total_quantity += $quantity;
+    }
+
+    $order_flower = new CustomFlowerOrder();
+    $order_flower->order_id = $order_id;
+    $order_flower->customer_id = $user->id;
+    $order_flower->ip_address = $request->ip();
+    $order_flower->total_price = $request->grand_total;
+    $order_flower->total_quantity = $total_quantity;
+    $order_flower->repper_id = $request->id_current;
+    $order_flower->status = 'pending';
+    $order_flower->save();
+
+
+
+
   foreach ($request->total_array as $key => $value) {
       CustomFlower::create([
-          'order_id'=>$order_id,
+          'order_id'=>   $order_flower->id,
           'flower_id'=>$request->flower_array[$key],
           'color_id'=>$request->color_array[$key],
           'quantity'=>$request->quantity_array[$key],
           'price'=>$request->total_array[$key],
       ]);
   }
+
+
+
     return response()->json(['status' => 'success']);
 }
 

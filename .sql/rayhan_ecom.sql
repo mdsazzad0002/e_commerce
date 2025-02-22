@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 22, 2025 at 08:50 AM
+-- Generation Time: Feb 22, 2025 at 03:59 PM
 -- Server version: 8.3.0
--- PHP Version: 8.3.6
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `customers_email_unique` (`email`),
   UNIQUE KEY `customers_mobile_unique` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `customers`
@@ -328,7 +328,10 @@ INSERT INTO `customers` (`id`, `name`, `email`, `mobile`, `password`, `address`,
 (24, 'Maite Velasquez', 'jamel@mailinator.com', 'Preston Duran', '$2y$10$nLW3JUffajwtj0j4QBgVxO442WJJTel8a.bLH5YJKPxN4oLlgjZPq', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-15 00:03:07', '2025-02-15 00:03:07'),
 (25, 'Barrett Rhodes', 'qyfe@mailinator.com', 'Allen Ewing', '$2y$10$2I5BRkLLRSGUOOYmmP1cy.Iqum2DhjwgbZ6rfrwXgmDupK5xdm.Ji', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-15 00:37:37', '2025-02-15 00:37:37'),
 (26, 'burhan', 'burhan@gmail.com', '0124563987', '$2y$10$PKYg1E1RQn3gC.dV3fr3kOdcisjHgoEWhuEeHZZyWzXIT/Ov9U.ai', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-16 03:29:04', '2025-02-16 03:29:04'),
-(27, 'Xenos Mathews', 'saqet@mailinator.com', 'Fleur Michael', '$2y$10$WcczUYAnpvNuG5c20JrwTeeLrBZUURnUC7wO9pxhilIlvWfg5diTC', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-21 23:31:01', '2025-02-21 23:31:01');
+(27, 'Xenos Mathews', 'saqet@mailinator.com', 'Fleur Michael', '$2y$10$WcczUYAnpvNuG5c20JrwTeeLrBZUURnUC7wO9pxhilIlvWfg5diTC', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-21 23:31:01', '2025-02-21 23:31:01'),
+(28, '234', '234234', '234', '$2y$10$mSm7QeTRRcH3tPruwz0MhuTteSUrbnjz2sLbdStzqL37GDumBqu6C', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-22 09:51:21', '2025-02-22 09:51:21'),
+(29, '2342', '234', '2342', '$2y$10$PTdKfflEpWD.WXbKY3eXCe7lBc.yXspXYy1GYSvmjQqUbJvCnJbpO', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-22 09:55:06', '2025-02-22 09:55:06'),
+(30, 'sdfsd', 'sdfs', 'dfsd', '$2y$10$jEGsHRDo.ddVoY6ZZ/2IHuXjMqxWEYweS.k4iFtxtbnGCINFOTUPe', NULL, NULL, NULL, NULL, NULL, 1, '2025-02-22 09:57:29', '2025-02-22 09:57:29');
 
 -- --------------------------------------------------------
 
@@ -345,10 +348,10 @@ CREATE TABLE IF NOT EXISTS `custom_flowers` (
   `price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `order_id` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_id` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quantity` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `custom_flowers`
@@ -366,7 +369,39 @@ INSERT INTO `custom_flowers` (`id`, `flower_id`, `color_id`, `name`, `price`, `c
 (17, '2', '1', NULL, '20', '2025-02-22 01:44:29', '2025-02-22 01:44:29', '1740210269', 1),
 (18, '2', '1', NULL, '10', '2025-02-22 01:45:35', '2025-02-22 01:45:35', '1740210335', 5),
 (19, '2', '4', NULL, '10', '2025-02-22 01:45:35', '2025-02-22 01:45:35', '1740210335', 5),
-(20, '2', '4', NULL, '20', '2025-02-22 01:45:35', '2025-02-22 01:45:35', '1740210335', 2);
+(20, '2', '4', NULL, '20', '2025-02-22 01:45:35', '2025-02-22 01:45:35', '1740210335', 2),
+(21, '6', '4', NULL, '25', '2025-02-22 09:55:06', '2025-02-22 09:55:06', '1', 1),
+(22, '6', '4', NULL, '25', '2025-02-22 09:55:06', '2025-02-22 09:55:06', '1', 1),
+(23, '6', '1', NULL, '1000', '2025-02-22 09:57:30', '2025-02-22 09:57:30', '2', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_flower_orders`
+--
+
+DROP TABLE IF EXISTS `custom_flower_orders`;
+CREATE TABLE IF NOT EXISTS `custom_flower_orders` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id` bigint NOT NULL,
+  `repper_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_quantity` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `custom_flower_orders`
+--
+
+INSERT INTO `custom_flower_orders` (`id`, `order_id`, `customer_id`, `repper_id`, `ip_address`, `total_price`, `total_quantity`, `status`, `created_at`, `updated_at`) VALUES
+(1, '1740239706', 29, '0', '127.0.0.1', '50', '2', 'pending', '2025-02-22 09:55:06', '2025-02-22 09:55:06'),
+(2, '1740239849', 30, '5', '127.0.0.1', '4000', '100', 'pending', '2025-02-22 09:57:30', '2025-02-22 09:57:30');
 
 -- --------------------------------------------------------
 
@@ -453,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `flowers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `flowers`
@@ -461,7 +496,8 @@ CREATE TABLE IF NOT EXISTS `flowers` (
 
 INSERT INTO `flowers` (`id`, `name`, `img`, `created_at`, `updated_at`) VALUES
 (2, 'Rose', 'admin/images/1739999381.png', '2025-02-19 15:09:41', '2025-02-19 15:09:41'),
-(5, 'sunflower', 'admin/images/1740036414.png', '2025-02-20 01:26:54', '2025-02-20 01:26:54');
+(5, 'sunflower', 'admin/images/1740036414.png', '2025-02-20 01:26:54', '2025-02-20 01:26:54'),
+(6, 'bely', 'admin/images/1740235837.jpg', '2025-02-22 08:50:37', '2025-02-22 08:50:37');
 
 -- --------------------------------------------------------
 
@@ -472,21 +508,24 @@ INSERT INTO `flowers` (`id`, `name`, `img`, `created_at`, `updated_at`) VALUES
 DROP TABLE IF EXISTS `flower_attributes`;
 CREATE TABLE IF NOT EXISTS `flower_attributes` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `customflower_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `flower_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `color_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `flower_attributes`
 --
 
-INSERT INTO `flower_attributes` (`id`, `customflower_id`, `color_id`, `price`, `created_at`, `updated_at`) VALUES
+INSERT INTO `flower_attributes` (`id`, `flower_id`, `color_id`, `price`, `created_at`, `updated_at`) VALUES
 (2, '2', '4', '10', '2025-02-21 11:15:55', '2025-02-21 11:15:55'),
-(3, '2', '1', '20', '2025-02-21 11:15:55', '2025-02-21 11:15:55');
+(3, '2', '1', '20', '2025-02-21 11:15:55', '2025-02-21 11:15:55'),
+(4, '6', '5', '45', '2025-02-22 08:50:37', '2025-02-22 08:50:37'),
+(5, '6', '4', '25', '2025-02-22 08:50:37', '2025-02-22 08:50:37'),
+(6, '6', '1', '10', '2025-02-22 08:50:37', '2025-02-22 08:50:37');
 
 -- --------------------------------------------------------
 
@@ -524,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -583,7 +622,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (59, '2025_02_19_202426_create_flowers_table', 20),
 (60, '2025_02_19_202914_create_flower_colors_table', 21),
 (61, '2025_02_20_114512_create_reapers_table', 22),
-(62, '2025_02_21_170548_create_flower_attributes_table', 23);
+(62, '2025_02_21_170548_create_flower_attributes_table', 23),
+(63, '2025_02_22_152416_create_custom_flower_orders_table', 24);
 
 -- --------------------------------------------------------
 
@@ -1185,21 +1225,22 @@ INSERT INTO `purchase_guides` (`id`, `description`, `status`, `created_at`, `upd
 DROP TABLE IF EXISTS `reapers`;
 CREATE TABLE IF NOT EXISTS `reapers` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `flower_qty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `flower_qty` int DEFAULT NULL,
   `reaper` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reapers`
 --
 
 INSERT INTO `reapers` (`id`, `flower_qty`, `reaper`, `price`, `created_at`, `updated_at`) VALUES
-(3, '20', '5', '600', '2025-02-20 06:46:24', '2025-02-20 06:46:24'),
-(4, '40', '10', '900', '2025-02-20 06:46:44', '2025-02-20 06:46:44');
+(3, 20, '5', '600', '2025-02-20 06:46:24', '2025-02-20 06:46:24'),
+(4, 40, '10', '900', '2025-02-20 06:46:44', '2025-02-20 06:46:44'),
+(5, 100, '50', '3000', '2025-02-22 09:32:22', '2025-02-22 09:32:22');
 
 -- --------------------------------------------------------
 
@@ -1250,7 +1291,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('LR0rTFGMBmYaIhFuiRP7Kc87Uup20HnpHC6drAMn', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWWNIa1lHdlJtNDd0OWNaQlZHVTFsdXd4T1pxbU81T2Q2UjUzelZnQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jdXRvbWUtb3JkZXIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjEzOiJndWVzdF91c2VyX2lkIjtzOjE5OiJndWVzdF82N2I5NjEwODUyZGEwIjt9', 1740213975);
+('Ybql8txkI5HJbY6LSVoYYp1L7bDe9LLsm7lTF9ow', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSnlScUZ4d0pxU0Nwa01aUXdiek9uS3R2aDJoY3k5OHF5V0k4cVZzQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jdXRvbWUtb3JkZXIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJGYwVy43bWNNV1dUTmJHeWtacGZYNU9QeFJLY2w3RS80cmJHRjVka2gwMHEycVNkclF2eVp1Ijt9', 1740239854);
 
 -- --------------------------------------------------------
 

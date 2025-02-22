@@ -45,12 +45,6 @@
                             </div>
                         </div>
 
-                        <label for="name" class="form-label">Flower Img</label>
-                        <div class="">
-                            <input type="file" class="form-control" name="img">
-
-                        </div>
-
                         <!-- Select Color and Price -->
                         <div class="row mb-4">
                             <label for="name" class="col-md-3 form-label">Select Color</label>
@@ -84,6 +78,54 @@
 
 
 
+                    <table id="example3x" class="table table-bordered text-nowrap border-bottom">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0">SL NO</th>
+                                {{-- <th class="border-bottom-0">Img</th> --}}
+                                <th class="border-bottom-0">Name</th>
+                                {{-- <th class="border-bottom-0">Color</th>
+                            <th class="border-bottom-0">Price</th> --}}
+                                <th class="border-bottom-0">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($customeflower as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    {{-- <td>
+                                @if ($item->flower && $item->flower->img)
+                                    <img src="{{ asset('/').$item->flower->img }}" alt="" width="100px">
+                                @else
+                                    No Image
+                                @endif
+                            </td> --}}
+                                    {{-- <td>{{ $item->flower->name ?? 'N/A' }}</td>
+                            <td>{{ $item->color->name ?? 'N/A' }}</td> --}}
+                                    <td>{{ $item->name ?? 'N/A' }}</td>
+                                    <td>
+
+                                        {{-- <a href="{{route('user.edit', $item->id)}}"
+                                    class="btn btn-success btn-sm float-start m-1">
+                                    <i class="fa fa-edit"></i>
+                                </a> --}}
+
+
+                                        <form action="{{ route('custom-flower.destroy', $item->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                class="btn btn-danger btn-sm float-start m-1 delete-item">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
 
 
                 </div>
@@ -92,7 +134,74 @@
 
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-horizontal" action="{{ route('flower.store') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="row mb-4">
+                                    <label for="name" class="form-label">Flower Name</label>
+                                    <div class="">
+                                        <input class="form-control" value="{{ old('name') }}" name="name"
+                                            id="name" placeholder="flower name" type="text" />
+
+                                    </div>
+                                    <label for="name" class="form-label">Flower Img</label>
+                                    <div class="">
+                                        <input type="file" class="form-control" name="img">
+
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary rounded-0 float-end" type="submit">Create</button>
+                            </form>
+
+                            <table id="example3x" class="table table-bordered text-nowrap border-bottom">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">SL NO</th>
+                                        <th class="border-bottom-0">Img</th>
+                                        <th class="border-bottom-0">Name</th>
+                                        <th class="border-bottom-0">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($flower as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td><img src="{{ asset('/') . $item->img }}" alt="" width="100px"> </td>
+                                            <td>{{ $item->name }}</td>
+
+
+
+
+                                            <td>
+
+                                                {{-- <a href="{{route('user.edit', $item->id)}}"
+                                            class="btn btn-success btn-sm float-start m-1">
+                                            <i class="fa fa-edit"></i>
+                                        </a> --}}
+
+
+                                                <form action="{{ route('flower.delete', $item->id) }}" method="post">
+                                                    @csrf
+
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-sm float-start m-1 delete-item">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
 
                     <div class="card">
                         <div class="card-body">
@@ -144,58 +253,6 @@
                                 </tbody>
                             </table>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">Flower</div>
-                        <div class="card-body">
-
-                            <table id="example3x" class="table table-bordered text-nowrap border-bottom">
-                                <thead>
-                                    <tr>
-                                        <th class="border-bottom-0">SL NO</th>
-                                        <th class="border-bottom-0">Img</th>
-                                        <th class="border-bottom-0">Name</th>
-                                        <th class="border-bottom-0">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($flower as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('/') . $item->img }}" alt="" width="100px">
-                                            </td>
-                                            <td>{{ $item->name }}</td>
-
-
-
-
-                                            <td>
-
-                                                {{-- <a href="{{route('user.edit', $item->id)}}"
-                                            class="btn btn-success btn-sm float-start m-1">
-                                            <i class="fa fa-edit"></i>
-                                        </a> --}}
-
-
-                                                <form action="{{ route('flower.delete', $item->id) }}" method="post">
-                                                    @csrf
-
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-sm float-start m-1 delete-item">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                    <a href="{{ route('custom-flower.show', $item->id) }}" class="btn btn-success btn-sm float-start m-1">Show</a>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

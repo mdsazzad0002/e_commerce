@@ -31,9 +31,10 @@
 
 
 
+
     <div class="container">
-        <div class="row">
-            <div class="col-lg-10">
+        <div class="row flex-row-reverse flex-lg-row">
+            <div class="col-lg-8">
                 <div class="ltn__checkout-inner">
                     <div class="ltn__checkout-single-content mt-50">
                         <h4 class="title-2">Place Custome Order </h4>
@@ -46,6 +47,8 @@
                             </ul>
                         </div>
                         @endif --}}
+
+
 
 
 
@@ -120,9 +123,21 @@
                                         {{-- when add new --}}
                                     </div>
 
-                                    
+
                                 </div>
 
+
+                                <div class="row">
+                                    @foreach ($reaper as $repers)
+                                    <div class="col-md-6 rapper_block rapper_block{{ $repers->id }}">
+                                        <div class=" p-2 ">
+                                           For flower Quantity: {{ $repers->flower_qty }} <br/>
+                                            Reper Needs: {{ $repers->reaper }} <br/>
+                                            Reper Price: {{ $repers->price }}
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
 
 
 
@@ -175,17 +190,6 @@
 
                                 </div>
 
-<div class="row">
-    @foreach ($reaper as $repers)
-    <div class="col-md-6 rapper_block rapper_block{{ $repers->id }}">
-        <div class=" p-2 ">
-            flower Quantity: {{ $repers->flower_qty }} <br/>
-            Reper Price: {{ $repers->price }}
-        </div>
-    </div>
-    @endforeach
-</div>
-
 
 
 
@@ -193,10 +197,25 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4 user_information">
+                <div>
+                    <input type="text" name="name" id="">
+                </div>
+                <div>
+                    <input type="email" name="email" id="">
+                </div>
+                <div>
+                    <input type="text" name="phone" id="">
+                </div>
+                <div>
+                    <textarea type="text" name="location" id=""></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <!-- WISHLIST AREA START -->
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -214,13 +233,13 @@
             });
             $(".grandTotal").text(grandTotal.toFixed(2));
         }
-    
+
         $(document).on("click", ".add-action", function() {
             let row = $(this).closest("tr");
             $(this).replaceWith('<a href="#" class="btn btn-danger btn-sm remove-action">Remove</a>');
             updateGrandTotal();
         });
-    
+
         $(document).on("click", ".remove-action", function() {
             let row = $(this).closest("tr");
             $(this).replaceWith('<a href="#" class="btn btn-dark btn-sm add-action">Add</a>');
@@ -234,7 +253,7 @@
         $('#flower').change(function(){
             var flowerId = $(this).val();
             $('#color').html('<option value="">Loading...</option>'); // Show loading message
-    
+
             if (flowerId) {
                 $.ajax({
                     url: "{{ route('getFlowerColors') }}",
@@ -263,13 +282,13 @@
     $(document).ready(function() {
         function calculateTotal() {
             let grandTotal = 0;
-        
+
             $(".flower-selection").each(function() {
                 let flower_id = $(this).find(".flowerSelect").val();
                 let color_id = $(this).find(".colorSelect").val();
                 let qty = parseInt($(this).find(".qtyInput").val()) || 1;
                 let priceField = $(this).find(".totalPrice");
-        
+
                 if (flower_id && color_id) {
                     $.ajax({
                         url: "{{ route('flower.price') }}",  // Your route for fetching price
@@ -278,7 +297,7 @@
                         success: function(response) {
                             let price = response.price;
                             let total = price * qty;
-                            
+
                             priceField.text(total.toFixed(2));
 
                         //     if (total ===) {
@@ -293,7 +312,7 @@
                 }
             });
         }
-        
+
         function updateGrandTotal() {
             let grandTotal = 0;
             $(".totalPrice").each(function() {
@@ -301,15 +320,15 @@
             });
             $(".grandTotal").text(grandTotal.toFixed(2));
         }
-        
+
         $(document).on("change", ".flowerSelect, .colorSelect", function() {
             calculateTotal();
         });
-        
+
         $(document).on("input", ".qtyInput", function() {
             calculateTotal();
         });
-    
+
         $(".add-more").click(function() {
             let newRow = $(".flower-selection:first").clone();
             newRow.find("select, input").val("");
@@ -317,7 +336,7 @@
             $(".flower-selection:last").after(newRow);
             calculateTotal();
         });
-    
+
         $(document).on("click", ".remove-action", function() {
             $(this).closest(".flower-selection").remove();
             calculateTotal();
@@ -339,13 +358,13 @@
             });
             $(".reaperTotal").text(grandTotal);
         }
-    
+
         $(document).on("click", ".add-action", function() {
             let row = $(this).closest("tr");
             $(this).replaceWith('<span  class="btn btn-danger btn-sm remove-action">Remove</span>');
             updateGrandTotal();
         });
-    
+
         $(document).on("click", ".remove-action", function() {
             let row = $(this).closest("tr");
             $(this).replaceWith('<span  class="btn btn-dark btn-sm add-action">Add</span>');
@@ -362,7 +381,7 @@
 
 function add_clone(thi) {
     let flower = $(thi).parents(".increment").find("#flower");
-    
+
     let sujon = $(thi).parents(".increment").find(".sujon");
     let price = $(thi).parents(".increment").find(".totalPrice");
     let qtyInput = $(thi).parents(".increment").find(".qtyInput");
@@ -373,7 +392,7 @@ let html_clone = `
         <!-- Flower Dropdown -->
         <div class="col-md-3">
             <label for="name" class="form-label">Select Flower</label>
-            <div class="input-item input-item-name ltn__custom-icon">
+            <div class="input-item input-item-name ">
                  ${flower.find("option:selected").text()}  <!-- Using .val() to get the value of the flower -->
                 <input name="flower[]" type="hidden" value="${flower.val()}">
             </div>
@@ -403,7 +422,7 @@ let html_clone = `
             <label for="total" class="form-label">Total</label>
             <div class="input-item">
                 <span class="totalPrice grand_for">${price.text()}</span>
-            
+
                 <!-- Display individual total here -->
             </div>
         </div>
@@ -428,7 +447,7 @@ let html_clone = `
         alert("Please Select Flower And Color");
     }
     // console.log(html_clone);
-    
+
     calculateTotal();
 }
     $(document).ready(function () {
@@ -473,15 +492,15 @@ let html_clone = `
                     success: function (response) {
                         // Populate the color dropdown with the fetched colors
                         if (response.colors && response.colors.length > 0) {
-                            
+
                             $.each(response.colors, function (key, color) {
-                            
+
                                 // alert(color.name);
                                 // $('select[name="found-color"]').append('<option value="' + color.id + '">' + color.name + '</option>');
                                 $('select.sujon').append(`<option value="${color.id}">${color.name}</option>`);
                             });
-                            
-                            
+
+
                         }
                         // $('select').niceSelect();
                     },
@@ -492,7 +511,7 @@ let html_clone = `
             }
         });
 
-        
+
         // Listen for changes in the color dropdown
         $('select.sujon').change(function () {
             var colorId = $(this).val(); // Get the selected color ID
@@ -519,7 +538,7 @@ let html_clone = `
             }
         });
             // Listen for changes in the color dropdown
-             
+
     });
 
 
@@ -534,10 +553,10 @@ let html_clone = `
 
         var totalPrice = quantity * actualPrice;
         $(thi).parents('.increment').find('.totalPrice').text(totalPrice);
-        
 
-        
-        
+
+
+
     }
 
 
@@ -547,12 +566,12 @@ let html_clone = `
         $(".totalPrice.grand_for").each(function() {
             grandTotal += parseFloat($(this).text()) || 0;
 
-            
+
         });
         // console.log(rapperPrice());
-        $(".grandTotal.grand_for_final").text(grandTotal.toFixed(2) + rapperPrice());
+        $(".grandTotal.grand_for_final").text(parseInt(grandTotal) + parseFloat(rapperPrice()));
     }
-
+    let id_current = 0;
     function submitForm() {
     // Get flower IDs
     var flower_array = $('.out_clone').find('input[name="flower[]"]').map(function () {
@@ -598,7 +617,12 @@ let html_clone = `
         color_array: color_array,
         flower_array: flower_array,
         reper_price: rapperPrice(),
-        
+        name: $('input[name="name"]').val(),
+        email: $('input[name="email"]').val(),
+        location: $('input[name="location"]').val(),
+        phone: $('input[name="phone"]').val(),
+        'id_current' : id_current
+
 
     };
 
@@ -615,7 +639,7 @@ let html_clone = `
                 setTimeout(function() {
                     location.reload();
                 },200)
-                
+
             }
         },
         error: function(xhr) {
@@ -627,7 +651,7 @@ let html_clone = `
 function rapperPrice() {
     let total_quantity = 0;
     let price = 0;
-    let id_current = 0;
+
     var reaperData = @json($reaper);
     // Get total quantity
     $('.out_clone').find('input[name="qty[]"]').each(function () {
@@ -637,12 +661,13 @@ function rapperPrice() {
     $('.rapper_block').each(function () {
         $(this).removeClass('active');
     });
+    id_current = 0;
     // Loop through the reaper data
     for (let i = 0; i < reaperData.length; i++) {
         if (total_quantity >= reaperData[i].flower_qty) {
             price = reaperData[i].price;
             id_current = reaperData[i].id;
-            
+
         }
     }
     $('.rapper_block' + id_current).addClass('active');
@@ -655,9 +680,11 @@ function rapperPrice() {
     .rapper_block{
         border: 1px solid #eee;
         margin: 10px 0;
+        display: none;
     }
     .rapper_block.active{
         background:#bebebe;
+        display: block;
     }
 </style>
 
